@@ -23,7 +23,7 @@ def test_ecp_invalid_characters():
 
 
 def test_ecp_invalid_syntax():
-    assert safe_eval("3*/2") == "Unsupported expression"
+    assert safe_eval("3*/2") == "Error"
 
 
 def test_ecp_division_by_zero():
