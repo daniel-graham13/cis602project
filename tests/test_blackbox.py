@@ -23,11 +23,11 @@ def test_ecp_invalid_characters():
 
 
 def test_ecp_invalid_syntax():
-    assert safe_eval("3*/2") == "Error"
+    assert safe_eval("3*/2") == "Unsupported expression"
 
 
 def test_ecp_division_by_zero():
-    assert safe_eval("9/0") == "Error: Divide by zero"
+    assert safe_eval("9/0") == "Error: Cannot Divide by zero"
 
 # BVA
 
