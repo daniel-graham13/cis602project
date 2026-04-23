@@ -35,11 +35,25 @@ def normalize_expression(expr: str) -> str:
 
     return expr
 
+MAX_DIGITS = 9
+
+def validate_expression(expr: str):
+    # Find all numbers (including decimals)
+    numbers = re.findall(r'\d+\.?\d*', expr)
+
+    for num in numbers:
+        # Remove decimal point for counting digits
+        digit_count = len(num.replace('.', ''))
+
+        if digit_count > MAX_DIGITS:
+            raise ValueError("Error: Number too large (max 9 digits)")
+
 
 def safe_eval(expression: str):                         
     """Safely evaluate a simple arithmetic expression."""
     try:
-        expression = normalize_expression(expression) 
+        expression = normalize_expression(expression)
+        validate_expression(expression)
 
         node = ast.parse(expression, mode="eval").body
         result = evaluate_node(node)
