@@ -61,6 +61,8 @@ def safe_eval(expression: str):
         return result
     except ZeroDivisionError:
         return "Error: Cannot divide by zero"
+    except ValueError as e:
+        return str(e)
     except Exception:
         return "Error"
 
