@@ -1,0 +1,4 @@
+site_name: Calculator data model
+
+nav:
+  - Data Model: datamodel.md
