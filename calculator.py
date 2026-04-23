@@ -42,7 +42,6 @@ def validate_expression(expr: str):
 
     for num in numbers:
         digit_count = len(num.replace('.', ''))
-        digit_count = len(num.replace('-', ''))
 
         if digit_count > MAX_DIGITS:
             raise ValueError("Error: Number too large (max 9 digits)")
