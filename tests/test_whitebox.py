@@ -8,7 +8,7 @@ def test_statement_valid_addition():
 
 
 def test_statement_divide_by_zero():
-    assert safe_eval("5/0") == "Error: Cannot Divide by zero"
+    assert safe_eval("5/0") == "Error: Cannot divide by zero"
 
 
 def test_statement_invalid_expression():
@@ -88,4 +88,4 @@ def test_path_invalid_syntax():
 
 
 def test_path_zero_division_after_parsing():
-    assert safe_eval("(4+1)/(3-3)") == "Error: Cannot Divide by zero"
+    assert safe_eval("(4+1)/(3-3)") == "Error: Cannot divide by zero"

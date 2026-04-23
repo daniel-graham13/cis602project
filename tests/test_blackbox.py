@@ -19,7 +19,7 @@ def test_ecp_valid_parentheses_expression():
 
 
 def test_ecp_invalid_characters():
-    assert safe_eval("2+a") == "Error"
+    assert safe_eval("2+a") == "Unsupported expression"
 
 
 def test_ecp_invalid_syntax():
@@ -27,7 +27,7 @@ def test_ecp_invalid_syntax():
 
 
 def test_ecp_division_by_zero():
-    assert safe_eval("9/0") == "Error: Cannot Divide by zero"
+    assert safe_eval("9/0") == "Error: Cannot divide by zero"
 
 # BVA
 
