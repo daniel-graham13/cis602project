@@ -38,12 +38,11 @@ def normalize_expression(expr: str) -> str:
 MAX_DIGITS = 9
 
 def validate_expression(expr: str):
-    # Find all numbers (including decimals)
     numbers = re.findall(r'\d+\.?\d*', expr)
 
     for num in numbers:
-        # Remove decimal point for counting digits
         digit_count = len(num.replace('.', ''))
+        digit_count = len(num.replace('-', ''))
 
         if digit_count > MAX_DIGITS:
             raise ValueError("Error: Number too large (max 9 digits)")
