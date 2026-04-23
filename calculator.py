@@ -1,10 +1,12 @@
 from pathlib import Path
 import ast
-import operator as op
+import operator as op   
 
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
 from pydantic import BaseModel
+
+import re
 
 app = FastAPI()
 BASE_DIR = Path(__file__).resolve().parent
@@ -23,12 +25,25 @@ ALLOWED_OPERATORS = {
 class ExpressionRequest(BaseModel):
     expression: str
 
+def normalize_expression(expr: str) -> str:             
 
-def safe_eval(expression: str):
+    expr = re.sub(r'(\d)\(', r'\1*(', expr)
+
+    expr = re.sub(r'\)(\d)', r')*\1', expr)
+
+    expr = re.sub(r'\)\(', r')*(', expr)
+
+    return expr
+
+
+def safe_eval(expression: str):                         
     """Safely evaluate a simple arithmetic expression."""
     try:
+        expression = normalize_expression(expression) 
+
         node = ast.parse(expression, mode="eval").body
         result = evaluate_node(node)
+        
         if isinstance(result, float) and result.is_integer():
             return int(result)
         return result
