@@ -1,24 +1,26 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculator</title>
     <style>
         body {
+            font-family: Arial, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            background: #f4f4f4;
+            min-height: 100vh;
             margin: 0;
-            font-family: Arial;
+            background: #f4f4f4;
         }
 
         .calculator {
             background: white;
             padding: 20px;
             border-radius: 12px;
-            width: 300px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            width: 320px;
         }
 
         .display {
@@ -26,7 +28,9 @@
             height: 60px;
             font-size: 24px;
             text-align: right;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
+            padding: 10px;
+            box-sizing: border-box;
         }
 
         .buttons {
@@ -37,97 +41,99 @@
 
         button {
             height: 60px;
-            font-size: 20px;
+            font-size: 22px;
             border: none;
             border-radius: 8px;
-            background: #ddd;
             cursor: pointer;
+            background: #e0e0e0;
         }
 
         button:hover {
-            background: #ccc;
+            background: #d0d0d0;
         }
 
-        .equals {
-            grid-column: span 2;
+        .clear {
+            background: #ffb3b3;
+        }
+
+        .clear:hover {
+            background: #ff9999;
         }
     </style>
 </head>
 <body>
+    <div class="calculator">
+        <input id="display" class="display" type="text" readonly>
+        <div class="buttons">
+            <button onclick="clearDisplay()" class="clear">C</button>
+            <button onclick="appendValue('(')">(</button>
+            <button onclick="appendValue(')')">)</button>
+            <button onclick="appendValue('/')">/</button>
 
-<div class="calculator">
-    <input id="display" class="display" readonly>
+            <button onclick="appendValue('7')">7</button>
+            <button onclick="appendValue('8')">8</button>
+            <button onclick="appendValue('9')">9</button>
+            <button onclick="appendValue('*')">*</button>
 
-    <div class="buttons">
-        <button onclick="clearDisplay()">C</button>
-        <button onclick="append('(')">(</button>
-        <button onclick="append(')')">)</button>
-        <button onclick="append('/')">/</button>
+            <button onclick="appendValue('4')">4</button>
+            <button onclick="appendValue('5')">5</button>
+            <button onclick="appendValue('6')">6</button>
+            <button onclick="appendValue('-')">-</button>
 
-        <button onclick="append('7')">7</button>
-        <button onclick="append('8')">8</button>
-        <button onclick="append('9')">9</button>
-        <button onclick="append('*')">*</button>
+            <button onclick="appendValue('1')">1</button>
+            <button onclick="appendValue('2')">2</button>
+            <button onclick="appendValue('3')">3</button>
+            <button onclick="appendValue('+')">+</button>
 
-        <button onclick="append('4')">4</button>
-        <button onclick="append('5')">5</button>
-        <button onclick="append('6')">6</button>
-        <button onclick="append('-')">-</button>
-
-        <button onclick="append('1')">1</button>
-        <button onclick="append('2')">2</button>
-        <button onclick="append('3')">3</button>
-        <button onclick="append('+')">+</button>
-
-        <button onclick="append('0')">0</button>
-        <button onclick="append('.')">.</button>
-        <button onclick="neg()">+/-</button>
-        <button onclick="calculate()" class="equals">=</button>
+            <button onclick="appendValue('0')">0</button>
+            <button onclick="appendValue('.')">.</button>
+            <button onclick="appendNegative()">+/-</button>
+            <button onclick="calculateExpression()" class="equals">=</button>
+        </div>
     </div>
-</div>
 
-<script>
-const display = document.getElementById("display");
+    <script>
+        const display = document.getElementById('display');
 
-function append(val) {
-    display.value += val;
-}
+        function appendValue(value) {
+            display.value += value;
+        }
 
-function clearDisplay() {
-    display.value = "";
-}
+        function clearDisplay() {
+            display.value = '';
+        }
 
-function neg() {
-    if (display.value === "" || /[+\\-*/(]$/.test(display.value)) {
-        display.value += "-";
-    }
-}
+        function appendNegative() {
+            if (display.value === '' || /[+\-*/(]$/.test(display.value)) {
+                display.value += '-';
+            }
+        }
 
-async function calculate() {
-    const res = await fetch("/calculate", {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({expression: display.value})
-    });
+        async function calculateExpression() {
+            const response = await fetch('/calculate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ expression: display.value })
+            });
 
-    const data = await res.json();
-    display.value = data.result;
-}
+            const data = await response.json();
+            display.value = data.result;
+        }
 
-// keyboard support
-document.addEventListener("keydown", async (e) => {
-    const allowed = "0123456789+-*/().";
+        document.addEventListener('keydown', async function (event) {
+            const allowed = '0123456789+-*/().';
 
-    if (allowed.includes(e.key)) append(e.key);
-    else if (e.key === "Enter") {
-        e.preventDefault();
-        await calculate();
-    }
-    else if (e.key === "Backspace") {
-        display.value = display.value.slice(0, -1);
-    }
-});
-</script>
-
+            if (allowed.includes(event.key)) {
+                appendValue(event.key);
+            } else if (event.key === 'Enter') {
+                event.preventDefault();
+                await calculateExpression();
+            } else if (event.key === 'Backspace') {
+                display.value = display.value.slice(0, -1);
+            } else if (event.key.toLowerCase() === 'c') {
+                clearDisplay();
+            }
+        });
+    </script>
 </body>
 </html>
