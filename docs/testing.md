@@ -1,10 +1,7 @@
 # Testing
 <br>
 
-
 ## Overview
-
-
 
 This page documents the calculator application's white-box and black-box test cases.
 
@@ -15,17 +12,15 @@ The calculator enforces a **maximum of 9 digits per numeric input**. Any number 
 ## White-Box Testing
 <br>
 
-
 ### Statement Coverage Criteria
 
 | Test ID | Input | Expected Output | Purpose |
 |---|---|---|---|
 | SC-1 | `2+3` | `5` | Covers normal evaluation statements |
-| SC-2 | `5/0` | `Error: Divide by zero` | Covers divide-by-zero exception path |
+| SC-2 | `5/0` | `Error: Cannot divide by zero` | Covers divide-by-zero exception path |
 | SC-3 | `2++` | `Error` | Covers invalid-expression error handling |
 | SC-4 | `1000000000` | `Error: Number too large (max 9 digits)` | Covers digit-limit validation statement |
 <br>
-
 
 ### Block Coverage Criteria
 
@@ -36,7 +31,6 @@ The calculator enforces a **maximum of 9 digits per numeric input**. Any number 
 | BC-3 | `(2+3)*4` | `20` | Covers parentheses and nested expression block |
 | BC-4 | `8(9)` | `72` | Covers normalization block for implicit multiplication |
 <br>
-
 
 ### Condition Coverage Criteria
 
@@ -51,7 +45,6 @@ The calculator enforces a **maximum of 9 digits per numeric input**. Any number 
 | CC-7 | `1000000000` | `Error: Number too large (max 9 digits)` | Digit count over limit → false |
 <br>
 
-
 ### Path Coverage Criteria
 
 | Test ID | Input | Expected Output | Path Covered |
@@ -60,22 +53,17 @@ The calculator enforces a **maximum of 9 digits per numeric input**. Any number 
 | PC-2 | `-2*5` | `-10` | Unary negative → binary operation |
 | PC-3 | `8(9)/7+3` | `13.285714285714286` | Normalize → parse → evaluate |
 | PC-4 | `((3` | `Error` | Parse failure path |
-| PC-5 | `(4+1)/(3-3)` | `Error: Divide by zero` | Parse success → runtime divide-by-zero |
+| PC-5 | `(4+1)/(3-3)` | `Error: Cannot divide by zero` | Parse success → runtime divide-by-zero |
 | PC-6 | `1000000000+1` | `Error: Number too large (max 9 digits)` | Normalize/validate → reject before evaluation |
 <br>
 
-
 ---
-
-
 
 ## Black-Box Testing
 <br>
 
-
 ### Equivalence Class Partitioning (ECP)
 <br>
-
 
 #### Valid equivalence classes
 
@@ -89,17 +77,15 @@ The calculator enforces a **maximum of 9 digits per numeric input**. Any number 
 | ECP-V6 | `999999999` | `999999999` | Valid 9-digit numeric input |
 <br>
 
-
 #### Invalid equivalence classes
 
 | Test ID | Input | Expected Output | Class |
 |---|---|---|---|
-| ECP-I1 | `2+a` | `Error` | Invalid character input |
+| ECP-I1 | `2+a` | `Unsupported expression` | Invalid character input |
 | ECP-I2 | `3*/2` | `Error` | Invalid operator sequence |
-| ECP-I3 | `9/0` | `Error: Divide by zero` | Division by zero |
+| ECP-I3 | `9/0` | `Error: Cannot divide by zero` | Division by zero |
 | ECP-I4 | `1000000000` | `Error: Number too large (max 9 digits)` | Numeric input exceeds 9-digit constraint |
 <br>
-
 
 ### Boundary Value Analysis (BVA)
 

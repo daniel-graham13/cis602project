@@ -1,5 +1,6 @@
-site_name: Calculator data model
+site_name: Python Calculator Documentation
 
 nav:
+  - Home: index.md
   - Data Model: datamodel.md
   - Testing: testing.md
